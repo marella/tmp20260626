@@ -30,6 +30,7 @@ jobs:
 
       - name: Run
         run: |
+          df -h
           python --version
           pip --version
           echo '${{ github.event.inputs.repo_id }}' > repo_id.txt
