@@ -1,0 +1,22 @@
+name: Disk
+
+on:
+  workflow_dispatch:
+    inputs:
+      tool-cache:
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Disk Space After
+        run: df -h
+
+      - uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: ${{ github.event.inputs.tool-cache }}
+
+      - name: Disk Space After
+        run: df -h
