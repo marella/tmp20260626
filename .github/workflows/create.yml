@@ -1,0 +1,39 @@
+name: Create
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_id:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: true
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: Install
+        run: pip install huggingface-hub==1.21.0
+
+      - name: Run
+        run: |
+          python --version
+          pip --version
+          echo '${{ github.event.inputs.repo_id }}' > repo_id.txt
+
+      - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
+        with:
+          commit_message: 'Add ${{ github.event.inputs.repo_id }}'
