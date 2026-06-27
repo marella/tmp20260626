@@ -11,7 +11,7 @@
   <body>
     {% for model in site.data.models %}
       <div>
-        <a href="{{ model.torrent }}">
+        <a href="{{ model.torrent | absolute_url }}">
           {{ model.id }}
         </a>
       </div>
