@@ -30,7 +30,7 @@ jobs:
         run: pip install huggingface-hub==1.21.0 libtorrent==2.0.13
 
       - name: Create Torrent
-        run: python scripts/create_torrent.py
+        run: python scripts/create_torrent.py '${{ github.event.inputs.repo_id }}'
 
       - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         with:
