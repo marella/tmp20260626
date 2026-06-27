@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  build:
+  create-torrent:
     runs-on: ubuntu-24.04
 
     permissions:
@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: "3.13"
 
       - name: Install
         run: pip install huggingface-hub==1.21.0 libtorrent==2.0.13
@@ -34,5 +34,5 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         with:
-          file_pattern: 'models/*.torrent'
-          commit_message: 'Create torrent for ${{ github.event.inputs.repo_id }}'
+          file_pattern: "models/*.torrent"
+          commit_message: "Create torrent for ${{ github.event.inputs.repo_id }}"
