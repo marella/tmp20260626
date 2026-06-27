@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+
     permissions:
       contents: write
 
@@ -37,4 +38,5 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         with:
+          file_pattern: 'models/*.torrent'
           commit_message: 'Add ${{ github.event.inputs.repo_id }}'
