@@ -9,7 +9,7 @@ from huggingface_hub import model_info, snapshot_download
 
 def main() -> None:
     repo_id = get_repo_id()
-    revision = get_revision(repo_id)
+    repo_id, revision = get_model_info(repo_id)
     download_model_and_create_torrent(repo_id, revision)
 
 
@@ -31,6 +31,7 @@ def download_model_and_create_torrent(repo_id: str, revision: str) -> None:
 
         snapshot_download(repo_id=repo_id, revision=revision, local_dir=model_dir)
         try:
+            # snapshot_download adds .cache directory which won't be available in web seed.
             rmtree(model_dir / ".cache")
         except FileNotFoundError:
             pass
@@ -40,7 +41,7 @@ def download_model_and_create_torrent(repo_id: str, revision: str) -> None:
 
 def get_repo_id() -> str:
     try:
-        repo_id = sys.argv[1]
+        repo_id = sys.argv[1].strip()
     except IndexError:
         raise ValueError("Repo id must be passed as a command-line argument.")
 
@@ -51,18 +52,17 @@ def get_repo_id() -> str:
     return repo_id
 
 
-def get_revision(repo_id: str) -> str:
-    revision = model_info(repo_id=repo_id, expand=["sha"]).sha
-    if not revision:
-        raise ValueError(f"Unknown revision for repo id '${repo_id}'.")
-    return revision
+def get_model_info(repo_id: str) -> tuple[str, str]:
+    model = model_info(repo_id=repo_id, expand=["sha"])
+    if not model.sha:
+        raise ValueError(f"Unknown revision for repo id '{model.id}'.")
+    return model.id, model.sha
 
 
 def get_torrent_file(repo_id: str) -> Path:
-    path = (
-        Path(__file__).parent.parent.resolve() / "models" / repo_id / Path(repo_id).name
-    )
-    return path.with_suffix(".torrent")
+    root = Path(__file__).parent.parent.resolve()
+    filename = Path(repo_id).name + ".torrent"
+    return root / "models" / repo_id.lower() / filename
 
 
 def get_url_seed(repo_id: str, revision: str) -> str:
