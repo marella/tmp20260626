@@ -159,15 +159,15 @@
                 </div>
                 {% endif %}
 
-                {% if site.data.torrents[model.id] != nil %}
-                <div class="card-info-item" title="Parameters">
+                {% if site.data.torrents[model.torrent] != nil %}
+                <div class="card-info-item">
                   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6-4-4-4 4"/><path d="M12 2v8"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 18h.01"/><path d="M10 18h.01"/></svg>
-                  {{ site.data.torrents[model.id].seeds }} seeds
+                  {{ site.data.torrents[model.torrent].seeds }} seeds
                 </div>
 
-                <div class="card-info-item" title="Parameters">
+                <div class="card-info-item">
                   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
-                  {{ site.data.torrents[model.id].peers }} peers
+                  {{ site.data.torrents[model.torrent].peers }} peers
                 </div>
                 {% endif %}
 
